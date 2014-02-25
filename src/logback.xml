@@ -1,0 +1,64 @@
+<configuration>
+	<appender name="WARN" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.err</Target>
+		<!-- deny all events with a level below INFO, that is TRACE and DEBUG -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+		    <level>WARN</level>
+    	</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %M:%L - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="INFO" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+      	<level>INFO</level>
+      		<onMatch>ACCEPT</onMatch>
+      		<onMismatch>DENY</onMismatch>
+    	</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %M:%L - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+      	<level>DEBUG</level>
+      		<onMatch>ACCEPT</onMatch>
+      		<onMismatch>DENY</onMismatch>
+    	</filter>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %M:%L - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/sample.log</file>
+        <append>false</append>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %M:%L - %msg%n</Pattern>
+		</layout>
+    </appender>
+
+	<appender name="UPDATED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>logs/application.%d{yyyy-MM-dd-HH-mm}.log</FileNamePattern>
+	    </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %M:%L - %msg%n</Pattern>
+        </encoder>
+    </appender>
+  	
+	<!-- debug level settings for each package or class -->
+	<root>
+	    <level value="debug"></level>
+		<appender-ref ref="DEBUG"/>
+		<appender-ref ref="WARN"/>
+	    <appender-ref ref="INFO"/>
+	    <appender-ref ref="FILE"/>	    
+	    <appender-ref ref="UPDATED_FILE"/>	    	    
+		<appender-ref ref="SERVER"/>
+	</root>
+</configuration>
